@@ -1,0 +1,67 @@
+<div class="clearfix container row-fluid">
+  <div id="issue-content">
+    
+    <div class="left-content pull-left">
+      <% flash.each do |key, value| %>
+        <div class="alert <%= key %>">
+          <%= value %><a class="close" data-dismiss="alert" href="#">&times;</a>
+        </div>
+      <% end %>
+      <h4>Uploaded Issues</h4>
+      <table class="table table-striped table-hover">
+        <thead>
+          <tr>
+            <th>CMC Id</th>
+            <th>GitLab Issue ID</th>
+            <th>GitHub Issue ID</th>
+            <th>Uploaded at</th>
+          </tr>
+        </thead>
+          <% @issues.each do |issue| %>
+            <tr>
+              <td> <%= issue.cmc_id %></td> 
+              <td> <%= issue.gitlab_id %></td>
+              <td> <%= issue.github_id %></td>
+              <td> <%= issue.created_at %></td>
+            </tr> 
+          <% end %>
+      </table>
+      <%= will_paginate @issues %> 
+    </div>
+    
+    <div class="sidebar pull-right" rel="sticky">
+      <div id="import-section" class="sidebar-section">
+        <h4 class="logo">Import</h4>
+          <%= form_tag({action: :import}, multipart: true) do %>
+
+            <div class="form-control">
+              Upload to<br>
+              <label class="pull-left"><%= check_box_tag 'github' %> GitHub</label>
+              <label class=""><%= check_box_tag 'gitlab' %> GitLab</label>
+            </div>
+
+            <div class="form-control">
+              Choose a csv file<br>
+              <%= file_field_tag 'CSV', accept: 'text/csv' %><br>
+            </div>
+
+            <div class="form-control">
+              <%= submit_tag 'Import', :class => 'btn' %>
+            </div>
+          <% end %>
+      </div>
+
+      <div id="export-section" class="sidebar-section">
+        <h4 class="logo">Export</h4>
+          <% if @issues.count > 0 %>
+            <%= form_tag({action: :export}, method: 'get') do %>
+              <div class="form-control">
+                <%= submit_tag 'Export', :class => 'btn' %>
+              </div>
+            <% end %>
+          <% end %>
+      </div>
+    </div>
+  </div>
+
+</div>
