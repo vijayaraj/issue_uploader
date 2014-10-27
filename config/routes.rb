@@ -8,14 +8,12 @@ Rails.application.routes.draw do
   get 'authorize' => 'account_configurations#authorize'
   get 'callback' => 'account_configurations#callback'
   post 'update' => 'account_configurations#update'
-  # post 'process_csv' => 'home#process_csv'
-  # get 'export_csv' => 'home#export_csv'
-  # get 'view_exported_csv' => 'home#view_exported_csv'
+  
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  # root 'home#index'
+  root 'issues#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'

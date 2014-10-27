@@ -11,18 +11,18 @@
       <table class="table table-striped table-hover">
         <thead>
           <tr>
-            <th>CMC Id</th>
-            <th>GitLab Issue ID</th>
-            <th>GitHub Issue ID</th>
-            <th>Uploaded at</th>
+            <th width="20%">CMC Issue ID</th>
+            <th width="20%">GitLab Issue ID</th>
+            <th width="20%">GitHub Issue ID</th>
+            <th width="20%">Uploaded at</th>
           </tr>
         </thead>
           <% @issues.each do |issue| %>
             <tr>
               <td> <%= issue.cmc_id %></td> 
-              <td> <%= issue.gitlab_id %></td>
-              <td> <%= issue.github_id %></td>
-              <td> <%= issue.created_at %></td>
+              <td> <%= issue.gitlab_id || "-" %></td>
+              <td> <%= issue.github_id || "-" %></td>
+              <td> <%= issue.created_at.strftime('%b %d, %Y') %></td>
             </tr> 
           <% end %>
       </table>
@@ -35,14 +35,14 @@
           <%= form_tag({action: :import}, multipart: true) do %>
 
             <div class="form-control">
-              Upload to<br>
-              <label class="pull-left"><%= check_box_tag 'github' %> GitHub</label>
-              <label class=""><%= check_box_tag 'gitlab' %> GitLab</label>
+              <label>Check the boxes to which the issues are to be imported.</label>
+              <label class="pull-left"><%= check_box_tag 'github', 1, true %> GitHub</label>
+              <label class=""><%= check_box_tag 'gitlab', 1, true %> GitLab</label>
             </div>
 
             <div class="form-control">
-              Choose a csv file<br>
-              <%= file_field_tag 'CSV', accept: 'text/csv' %><br>
+              <label>Choose a csv file</label>
+              <%= file_field_tag 'CSV', accept: 'text/csv', :required => true %><br>
             </div>
 
             <div class="form-control">
@@ -53,13 +53,13 @@
 
       <div id="export-section" class="sidebar-section">
         <h4 class="logo">Export</h4>
-          <% if @issues.count > 0 %>
+          
             <%= form_tag({action: :export}, method: 'get') do %>
-              <div class="form-control">
-                <%= submit_tag 'Export', :class => 'btn' %>
-              </div>
-            <% end %>
-          <% end %>
+            <div class="form-control">
+              <label>Generate a CSV of all available issues and send it via email.</label>
+              <%= submit_tag 'Export', :class => 'btn' %>
+            </div>
+          <% end %>          
       </div>
     </div>
   </div>

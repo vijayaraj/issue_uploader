@@ -10,22 +10,31 @@ class IssuesController < ApplicationController
 	end
 
 	def import
-		if params[:CSV].present?
+		if params[:CSV].present? and (params[:github] or params[:gitlab])
 			Thread.new { 
 				import_issues(params[:CSV], params) 
 			}
+			flash[:notice] = "Import has succesfully started. You will be notified via mail when the import is done."
+		else
+			unless params[:CSV]
+				flash[:error] = "Pleae choose a CSV file to import."
+			else
+				flash[:error] = "Please select one of the checkboxes to import."
+			end
 		end
 
-		flash[:notice] = "Import has succesfully started. You will be notified via mail when the import is done."
+		
 		redirect_to issues_path
 	end
 
 	def export
 		if Issue.all.count > 0
 			Thread.new { export_issues }
+			flash[:notice] = "Export has succesfully started. You will be notified via mail when the export is done."
+		else
+			flash[:error] = "Sorry, there are no issues to export."
 		end
 
-		flash[:notice] = "Export has succesfully started. You will be notified via mail when the export is done."
 		redirect_to issues_path
 	end
 

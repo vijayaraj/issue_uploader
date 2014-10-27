@@ -13,23 +13,22 @@
         <%= form_tag({action: :authorize}, method: :get) do %>
 
           <div class="form-control">
-            Client ID<br>
+            <label>Client ID</label>
             <%= text_field_tag :client_id, @github[:client_id], { :class => "span7", :required => true } %>
           </div>
 
           <div class="form-control">
-            Client Secret<br>
+            <label>Client Secret</label>
             <%= password_field_tag :client_secret, @github[:client_secret], { :class => "span7",:required => true } %>
           </div>
-
           <div class="form-control">
-            GitHub username<br>
-            <%= text_field_tag :user, @github[:user], { :class => "span7", :placeholder => "Eg. halbcoder",:required => true } %>
+            <label>GitHub username</label>
+            <%= text_field_tag :user, @github[:user], { :class => "span7", :placeholder => "Example: halbcoder",:required => true } %>
           </div>
 
           <div class="form-control">
-            Repository ID<br>
-            <%= text_field_tag :repo, @github[:repo], { :class => "span7", :placeholder => "Eg. sc-app",:required => true } %>
+            <label>Repository ID</label>
+            <%= text_field_tag :repo, @github[:repo], { :class => "span7", :placeholder => "Example: tc-app",:required => true } %>
           </div>
 
           <div class="form-control">
@@ -43,25 +42,27 @@
         <%= form_tag({action: :update}) do %>
 
           <div class="form-control">
-            End point<br>
+            <label>Endpoint</label>
             <%= text_field_tag :endpoint, @gitlab[:endpoint], { :class => "span7", :required => true, :disabled => true } %>
           </div>
 
           <div class="form-control">
-            Private token<br>
+            <label>Private token</label>
             <%= password_field_tag :private_token, @gitlab[:private_token], { :class => "span7", :required => true } %>
           </div>
 
           <div class="form-control">
-            Project ID<br>
-            <%= text_field_tag :project_id, @gitlab[:project_id], { :class => "span7",:required => true, :placeholder => "Eg. halbcoder" } %>
+            <label>Project ID</label>
+            <%= text_field_tag :project_id, @gitlab[:project_id], { :class => "span7",:required => true, :placeholder => "Your GitLab Project ID" } %>
           </div>
 
           <div class="form-control">
             <%= submit_tag 'Update', :class => 'btn' %>
           </div>
-      </div>
-        <h4>Send import/export notifications to</h4>
+        </div>
+
+        <div class="notif">
+          <h4>Send import/export notifications to</h4>
         
           <div class="form-control">
             <%= text_field_tag :notification_email, @notification_email, { :class => "span7", :required => true, :placeholder => "Example: halbcoder@gmail.com" } %>
@@ -71,6 +72,8 @@
             <%= submit_tag 'Update', :class => 'btn' %>
           </div>
         <% end %>
+        </div>
+      
       
     </div>  
     <div class="sidebar pull-right">
