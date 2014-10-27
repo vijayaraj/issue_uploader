@@ -10,23 +10,23 @@ module ImportExportMethods
   def import_issues(csv_file, params)
     CSV.foreach(csv_file.path, headers: true) do |row|   
       issue = row.to_hash
-      params = issue_params(issue)
+      issue_data = issue_params(issue)
       cmc_issue_id = issue['Issue: Issue Number']
       cmc_issue = Issue.find_by_cmc_id(cmc_issue_id)
       github_id = gitlab_id = ""
 
       # upload to github if checked
-      if params[:github].eql?(1)
+      if params["github"].to_s.eql?("1")
         if cmc_issue.blank? or cmc_issue.github_id.blank?
-          github_issue = github_object.create_issue(params)
+          github_issue = github_object.create_issue(issue_data)
           github_id = github_issue.number
         end
       end
 
       # upload to gitlab if checked
-      if params[:gitlab].eql?(1)
+      if params["gitlab"].to_s.eql?("1")
         if cmc_issue.blank? or cmc_issue.gitlab_id.blank?
-          gitlab_issue = gitlab_object.create_issue(params)
+          gitlab_issue = gitlab_object.create_issue(issue_data)
           gitlab_id = gitlab_issue.id
         end
       end  
