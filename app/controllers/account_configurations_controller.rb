@@ -21,7 +21,7 @@ class AccountConfigurationsController < ApplicationController
     github = Github.new client_id: params[:client_id], client_secret: params[:client_secret]
     scoper.update_attributes(:github => github_auth_data)
     
-    address = github.authorize_url redirect_uri: @host+'callback', scope: 'repo'
+    address = github.authorize_url redirect_uri: host+'/callback', scope: 'repo'
     redirect_to address
   end
 
@@ -65,6 +65,6 @@ class AccountConfigurationsController < ApplicationController
     end
 
     def host
-      @host ||= request.host
+      @host ||= request.base_url
     end
 end
