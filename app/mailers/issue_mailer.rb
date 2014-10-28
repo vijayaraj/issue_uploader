@@ -1,7 +1,8 @@
 class IssueMailer < ActionMailer::Base
   default from: "notification@issueuploader.com"
 
-  def notify_user_on_import
+  def notify_user_on_import(url)
+    @url = url
     mail :to => "vraj.mdu@gmail.com", :subject => "Issue uploader - Your import is complete!"
   end
   

@@ -1,9 +1,13 @@
 Rails.application.routes.draw do
   resources :issues
+  resources :exported_issue_data
   resources :account_configurations
+
 
   post 'import' => 'issues#import'
   get 'export' => 'issues#export'
+  get 'download' => 'issues#download'
+
   get 'settings' => 'account_configurations#edit'
   get 'authorize' => 'account_configurations#authorize'
   get 'callback' => 'account_configurations#callback'

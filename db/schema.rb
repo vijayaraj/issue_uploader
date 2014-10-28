@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141026061205) do
+ActiveRecord::Schema.define(version: 20141028074844) do
 
   create_table "account_configurations", force: true do |t|
     t.text     "github"
@@ -22,6 +22,21 @@ ActiveRecord::Schema.define(version: 20141026061205) do
   end
 
   create_table "exported_issue_data", force: true do |t|
+    t.string   "cmc_id"
+    t.integer  "github_id"
+    t.string   "github_title"
+    t.string   "github_status"
+    t.text     "github_labels"
+    t.string   "github_milestones"
+    t.string   "github_last_updated"
+    t.integer  "gitlab_id"
+    t.string   "gitlab_title"
+    t.string   "gitlab_status"
+    t.text     "gitlab_labels"
+    t.string   "gitlab_milestones"
+    t.string   "gitlab_last_updated"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "issues", force: true do |t|
@@ -32,7 +47,7 @@ ActiveRecord::Schema.define(version: 20141026061205) do
     t.datetime "updated_at"
   end
 
-  create_table "issues_temp", force: true do |t|
+  create_table "issues-T", force: true do |t|
     t.string   "cmc_id"
     t.integer  "github_id"
     t.integer  "gitlab_id"

@@ -8,31 +8,40 @@
         </div>
       <% end %>
       <h4>Uploaded Issues</h4>
-      <table class="table table-striped table-hover">
-        <thead>
-          <tr>
-            <th width="20%">CMC Issue ID</th>
-            <th width="20%">GitLab Issue ID</th>
-            <th width="20%">GitHub Issue ID</th>
-            <th width="20%">Uploaded at</th>
-          </tr>
-        </thead>
-          <% @issues.each do |issue| %>
+      <% if @issues.count > 0 %>
+        <table class="table table-striped table-hover" id="issue_list_table">
+          <thead>
             <tr>
-              <td> <%= issue.cmc_id %></td> 
-              <td> <%= issue.gitlab_id || "-" %></td>
-              <td> <%= issue.github_id || "-" %></td>
-              <td> <%= issue.created_at.strftime('%b %d, %Y') %></td>
-            </tr> 
-          <% end %>
-      </table>
-      <%= will_paginate @issues %> 
+              <th width="20%">CMC Issue ID</th>
+              <th width="20%">GitLab Issue ID</th>
+              <th width="20%">GitHub Issue ID</th>
+              <th width="20%">Uploaded at</th>
+            </tr>
+          </thead>
+            <% @issues.each do |issue| %>
+              <tr>
+                <td> <%= issue.cmc_id %></td> 
+                <td> <%= issue.gitlab_id || "-" %></td>
+                <td> <%= issue.github_id || "-" %></td>
+                <td> <%= issue.created_at.strftime('%b %d, %Y') %></td>
+              </tr> 
+            <% end %>
+        </table>
+      <% else %>
+        <p>There are no issues imported to GitLab or GitHub before.</p>
+      <% end %>
+        <%= will_paginate @issues %> 
     </div>
     
     <div class="sidebar pull-right" rel="sticky">
       <div id="import-section" class="sidebar-section">
         <h4 class="logo">Import</h4>
           <%= form_tag({action: :import}, multipart: true) do %>
+            <% if @issues.count > 0 %>
+              <div class="alert span11">
+                <%= @issues.count %> issues imported so far.
+              </div>
+            <% end %>
 
             <div class="form-control">
               <label>Check the boxes to which the issues are to be imported.</label>
@@ -47,17 +56,25 @@
 
             <div class="form-control">
               <%= submit_tag 'Import', :class => 'btn' %>
-            </div>
+            </div>  
           <% end %>
       </div>
 
       <div id="export-section" class="sidebar-section">
         <h4 class="logo">Export</h4>
           
-            <%= form_tag({action: :export}, method: 'get') do %>
+          <%= form_tag({action: :export}, method: 'get') do %>
+            <% if @exported_data_count > 0 %>
+              <div class="alert span11">
+                <%= @exported_data_count %> issues were last exported on <%= formated_date(@last_downloaded) %>. You can <%= link_to "view", exported_issue_data_path %> or
+                <%= link_to "download", download_path %> the exported data.
+              </div>
+            <% end %>
             <div class="form-control">
-              <label>Generate a CSV of all available issues and send it via email.</label>
-              <%= submit_tag 'Export', :class => 'btn' %>
+              <label>Generate a CSV of all available issues with latest updates and send it via email.</label>
+              <div class="form-control">
+                <%= submit_tag 'Export', :class => 'btn' %>
+              </div>  
             </div>
           <% end %>          
       </div>

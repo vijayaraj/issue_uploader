@@ -1,5 +1,7 @@
 class AccountConfigurationsController < ApplicationController
 
+  END_POINT = "https://gitlab.com/api/v3"
+  
   def edit
     @github = scoper.github
     @gitlab = scoper.gitlab
@@ -29,12 +31,17 @@ class AccountConfigurationsController < ApplicationController
     authorization_code = params[:code]
     github = Github.new client_id: scoper.github[:client_id], 
               client_secret: scoper.github[:client_secret]
+    begin
+      access_token = github.get_token authorization_code
+      data = (scoper.github).merge({:token => access_token.token})
+      scoper.update_attributes(:github => data)
+      flash[:notice] = "Github settings updated succesfully"
+    rescue Exception => e
+      scoper.update_attributes(:github => {})
+      flash[:error] = "There was a problem updating Github Settings. 
+        Please check if your credentials are correct and if redirect URI matches"
+    end
     
-    access_token = github.get_token authorization_code
-    data = (scoper.github).merge({:token => access_token.token})
-    scoper.update_attributes(:github => data)
-
-    flash[:notice] = "Github settings updated succesfully"
     redirect_to settings_path
   end
 
@@ -58,7 +65,7 @@ class AccountConfigurationsController < ApplicationController
 
     def gitlab_auth_data
       {
-        :endpoint => params[:endpoint],
+        :endpoint => END_POINT,
         :private_token => params[:private_token],
         :project_id => params[:project_id]
       }
