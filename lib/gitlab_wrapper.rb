@@ -1,5 +1,9 @@
 class GitlabWrapper
 
+  # Wrapper to gitlab gem.
+  # Uses create and get GitHub API.
+  # Authorization using end_point and private_token.
+
   def create_issue(issue)
     gitlab.create_issue(scoper.gitlab_project_id, issue[:title], issue_params(issue))
   end

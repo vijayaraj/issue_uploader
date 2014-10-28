@@ -65,7 +65,7 @@
           <h4>Send import/export notifications to</h4>
         
           <div class="form-control">
-            <%= text_field_tag :notification_email, @notification_email, { :class => "span7", :required => true, :placeholder => "Example: halbcoder@gmail.com" } %>
+            <%= email_field_tag :notification_email, @notification_email, { :class => "span7", :required => true, :placeholder => "Example: halbcoder@gmail.com" } %>
           </div>
 
           <div class="form-control">
@@ -77,6 +77,9 @@
       
     </div>  
     <div class="sidebar pull-right">
+      <div>
+
+      </div>
     </div>  
   </div>
 </div>

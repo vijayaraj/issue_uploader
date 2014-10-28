@@ -7,6 +7,13 @@
           <%= value %><a class="close" data-dismiss="alert" href="#">&times;</a>
         </div>
       <% end %>
+      
+      <% if @account_configuration.notification_email.blank? %>
+        <div class="alert">
+          Please set your notification email in the <%= link_to 'Settings', settings_path %> page. Or else you will not receive email notifcations when import or export completes.
+        </div>
+      <% end %>
+
       <h4>Uploaded Issues</h4>
       <% if @issues.count > 0 %>
         <table class="table table-striped table-hover" id="issue_list_table">

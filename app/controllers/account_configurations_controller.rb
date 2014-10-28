@@ -1,7 +1,8 @@
 class AccountConfigurationsController < ApplicationController
 
   END_POINT = "https://gitlab.com/api/v3"
-  
+
+  # Updates GitLab Settings and Notification email.
   def edit
     @github = scoper.github
     @gitlab = scoper.gitlab
@@ -18,7 +19,7 @@ class AccountConfigurationsController < ApplicationController
     redirect_to settings_path
   end
 
-  # github
+  # Establishes connection with GitHub, authorizes the connection and updates settings.
   def authorize
     github = Github.new client_id: params[:client_id], client_secret: params[:client_secret]
     scoper.update_attributes(:github => github_auth_data)

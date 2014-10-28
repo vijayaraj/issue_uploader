@@ -2,6 +2,9 @@ require "github_wrapper.rb"
 require "gitlab_wrapper.rb"
 
 module ImportExportMethods  
+  # Includes utility methods to import, export and download issues. 
+  # Sets/unsets import_progress and export_progress so that one import or one export can run at a time.
+  # Notifies users when import or export is done.
 
   EXPORT_FIELDS = ["Issue ID", "GitLab ID", "GitLab Title", "GitLab Status", "GitLab labels", 
                     "GitLab Milestones", "GitLab last updated", "GitHub ID", "GitHub Title", 
@@ -18,7 +21,7 @@ module ImportExportMethods
         cmc_issue = Issue.find_by_cmc_id(cmc_issue_id)
         github_id = gitlab_id = ""
 
-        # upload to github if checked
+        # uploads to github if checked
         if params["github"].to_s.eql?("1")
           if cmc_issue.blank? or cmc_issue.github_id.blank?
             github_issue = github_object.create_issue(issue_data)
@@ -26,7 +29,7 @@ module ImportExportMethods
           end
         end
 
-        # upload to gitlab if checked
+        # uploads to gitlab if checked
         if params["gitlab"].to_s.eql?("1")
           if cmc_issue.blank? or cmc_issue.gitlab_id.blank?
             gitlab_issue = gitlab_object.create_issue(issue_data)
@@ -72,7 +75,7 @@ module ImportExportMethods
       csv << EXPORT_FIELDS
       issues.each do |issue|
         csv << [issue.cmc_id, issue.gitlab_id, issue.gitlab_title, issue.gitlab_status, issue.gitlab_labels, 
-          issue.gitlab_milestones, gitlab_last_updated, issue.github_id, 
+          issue.gitlab_milestones, issue.gitlab_last_updated, issue.github_id, 
           issue.github_title, issue.github_status, issue.github_labels, issue.github_milestones, 
           issue.github_last_updated]
       end

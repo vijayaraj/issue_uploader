@@ -1,5 +1,9 @@
 class GithubWrapper
 
+  # Wrapper to github_api gem.
+  # Uses create, list and get GitHub API.
+  # Oauth authorization using client_id, client_secret and the generated access token.
+
   def create_issue(issue)
     github_issue.create(issue_params(issue))
   end

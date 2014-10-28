@@ -16,6 +16,8 @@ ActiveRecord::Schema.define(version: 20141028074844) do
   create_table "account_configurations", force: true do |t|
     t.text     "github"
     t.text     "gitlab"
+    t.boolean  "import_progress"
+    t.boolean  "export_progress"
     t.string   "notification_email"
     t.datetime "created_at"
     t.datetime "updated_at"
@@ -40,14 +42,6 @@ ActiveRecord::Schema.define(version: 20141028074844) do
   end
 
   create_table "issues", force: true do |t|
-    t.string   "cmc_id"
-    t.integer  "github_id"
-    t.integer  "gitlab_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  create_table "issues-T", force: true do |t|
     t.string   "cmc_id"
     t.integer  "github_id"
     t.integer  "gitlab_id"
