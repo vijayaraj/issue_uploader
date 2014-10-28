@@ -13,7 +13,8 @@ class GitlabWrapper
   end
 
   def edit_issue(gitlab_id, issue)
-    gitlab.edit_issue(scoper.gitlab_project_id, gitlab_id, issue_params(issue))
+    gitlab.edit_issue(scoper.gitlab_project_id, gitlab_id, 
+      issue_params(issue).merge(:title => issue[:title]))
   end
 
   private
