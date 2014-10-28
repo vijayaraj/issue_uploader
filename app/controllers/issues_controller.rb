@@ -55,26 +55,24 @@ class IssuesController < ApplicationController
   	end
 
   	def validate_csv
-  		CSV.foreach(params[:CSV].path) do |row|
-				unless row[0].eql?('Issue: Issue Number')
-					flash[:error] = "The format of the CSV file you tried importing is invalid."
-					redirect_to issues_path
-					break
-				end
-  		end
+  		headers = CSV.foreach(params[:CSV].path).first
+  		unless headers.include?('Issue: Issue Number')
+				flash[:error] = "The format of the CSV file you tried importing is invalid."
+				redirect_to issues_path
+			end
   	end
 
   	def check_for_import_progress
   		if AccountConfiguration.first.import_progress
 				flash[:error] = "An import is under progress. Please wait.."
 				redirect_to issues_path
-  		end
+			end
   	end
 
   	def check_for_export_progress
   		if AccountConfiguration.first.export_progress
 				flash[:error] = "An export is under progress. Please wait.."
 				redirect_to issues_path
-  		end
+			end
   	end
 end

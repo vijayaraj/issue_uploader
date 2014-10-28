@@ -1,6 +1,6 @@
 class CreateIssues < ActiveRecord::Migration
   def change
-    create_table :issue_cmcs do |t|
+    create_table :issues do |t|
       t.string :cmc_id
       t.integer :github_id
       t.integer :gitlab_id
