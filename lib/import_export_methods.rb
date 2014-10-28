@@ -26,6 +26,9 @@ module ImportExportMethods
           if cmc_issue.blank? or cmc_issue.github_id.blank?
             github_issue = github_object.create_issue(issue_data)
             github_id = github_issue.number
+          # This will edit the issue if it is already uploaded before and not create a new one.
+          if cmc_issue.present? and cmc_issue.github_id.present?
+            github_object.edit_issue(cmc_issue.github_id, issue_data)
           end
         end
 
@@ -34,6 +37,10 @@ module ImportExportMethods
           if cmc_issue.blank? or cmc_issue.gitlab_id.blank?
             gitlab_issue = gitlab_object.create_issue(issue_data)
             gitlab_id = gitlab_issue.id
+          end
+          # This will edit the issue if it is already uploaded before and not create a new one.
+          if cmc_issue.present? and cmc_issue.gitlab_id.present?
+            gitlab_object.edit_issue(cmc_issue.gitlab_id, issue_data)
           end
         end  
 

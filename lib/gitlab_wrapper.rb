@@ -12,6 +12,10 @@ class GitlabWrapper
     gitlab.issue(scoper.gitlab_project_id, gitlab_id)
   end
 
+  def edit_issue(gitlab_id, issue)
+    gitlab.edit_issue(scoper.gitlab_project_id, gitlab_id, issue_params(issue))
+  end
+
   private
     def gitlab
       @gitlab ||= Gitlab.client(auth_data)

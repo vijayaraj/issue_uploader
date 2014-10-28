@@ -16,6 +16,10 @@ class GithubWrapper
     github_issue.get(auth_data.merge(:number => github_id))
   end
 
+  def edit_issue(github_id, issue)
+    github_issue.edit(issue_params(issue).merge(:number => github_id))
+  end
+
   private
     def github_issue
       Github.new.issues(auth_data)
